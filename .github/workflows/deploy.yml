@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install MyST
         run: npm install -g mystmd@1.10.1
@@ -47,6 +47,11 @@ jobs:
           fi
 
           cp -r kb/_build/html/. _site/archive/
+
+      - name: Inject custom CSS
+        run: |
+          cp kb/style.css _site/archive/style.css
+          find _site/archive -name "*.html" | xargs sed -i 's|</head>|<link rel="stylesheet" href="/archive/style.css"></head>|'
 
       - uses: actions/upload-pages-artifact@v3
         with:
